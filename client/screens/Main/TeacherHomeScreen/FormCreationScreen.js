@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import {
   ScrollView,
   View,
-  StyleSheet,
-  Alert
+  StyleSheet
 } from 'react-native';
 import { connect } from "react-redux";
 import t from 'tcomb-form-native';
+import * as SecureStore from 'expo-secure-store';
 
 import { Button } from '../../../components/Button';
+import { setForm } from '../../../actions/apiActions';
 
-/*
-  * TODO :
-  *
-  * - Gérer les erreurs
-*/
+function mapDispatchToProps(dispatch) {
+  return {
+    setForm: params => dispatch(setForm(params))
+  };
+}
 
 const Form = t.form.Form;
 
@@ -47,20 +48,24 @@ const options = {
 
 class connectedFormCreationScreen extends Component {
 
+  state = { token : {} }
+
+  async componentDidMount () {
+    const userToken = await SecureStore.getItemAsync('userToken');
+    this.setState({ token: userToken  });
+  }
+
   // faire appel au POST correspondant dans apiActions
 
   createForm = () => {
+
+    const headers = {
+      'Authorization': 'Bearer ' + this.state.token
+    };
+
     if (this._form.validate().isValid() == true){
       const value = this._form.getValue();
-      this.props.socket.emit('setForm', value);
-      this.props.socket.on('successfullySetForm', 
-        () => Alert.alert('Success !', 'Your form was created.', 
-          [
-            {text: 'Great !'}
-          ],
-          { cancelable: false }
-          )
-        );
+      this.props.setForm({  value, headers  });
     }
   };
 
@@ -124,6 +129,6 @@ const mapStateToProps = state => {
     return { socket: state.socket }
 };
 
-const FormCreationScreen = connect(mapStateToProps)(connectedFormCreationScreen);
+const FormCreationScreen = connect(mapStateToProps, mapDispatchToProps)(connectedFormCreationScreen);
 
 export default FormCreationScreen;

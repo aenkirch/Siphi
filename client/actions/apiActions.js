@@ -1,33 +1,46 @@
-import { FORM_CREATED, FORM_CREATED_FAIL, GROUPS_LOADED, GROUPS_LOADED_FAIL } from '../constants/Action-types';
+import { GROUPS_LOADED, GROUPS_LOADED_FAIL } from '../constants/Action-types';
 import { IP } from '../constants/config';
 
+import { Alert } from 'react-native';
 import axios from 'axios';
 
-export function setForm(payload, headers) {
+export function setForm(payload) {
     return function(dispatch) {
       return axios({
         method: 'POST',
         url: IP + '/api/setForm',
-        headers: headers,
+        headers: payload.headers,
         data: {
-            question: payload.question,
-            answer1: payload.answer1,
-            answer2: payload.answer2,
-            answer3: payload.answer3,
-            answer4: payload.answer4,
-            answer5: payload.answer5
+            question: payload.value.question,
+            answer1: payload.value.answer1,
+            answer2: payload.value.answer2,
+            answer3: payload.value.answer3,
+            answer4: payload.value.answer4,
+            answer5: payload.value.answer5
         }})
       .then((res) => {
-        dispatch({ type: FORM_CREATED, payload: res.data })
+        Alert.alert('Success !', 'Your form was created.', 
+            [
+                {text: 'Great !'}
+            ],
+            { cancelable: false }
+        )
+        dispatch({ type: '' })
       })
       .catch((err) => {
-        console.log(err.response.data); 
-        dispatch({ type: FORM_CREATED_FAIL, payload: err.response.data })
+        console.log(err); 
+        Alert.alert('Error !', err, 
+            [
+                {text: 'OK'}
+            ],
+            { cancelable: false }
+        )
+        dispatch({ type: '' })
       })
     }
 };
 
-export function getGroups(payload, headers) {
+export function getGroups(headers) {
     return function(dispatch) {
         return axios({
             method: 'POST',
@@ -41,4 +54,4 @@ export function getGroups(payload, headers) {
             dispatch({ type: GROUPS_LOADED_FAIL, payload: err.response.data })
         })
     }
-};
+)}}

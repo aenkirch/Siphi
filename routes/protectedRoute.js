@@ -29,7 +29,7 @@ module.exports = ({app, io}) => {
             console.log(req.user);
     });
 
-    api.post('setForm', 
+    api.post('/setForm', 
         passport.authenticate('jwt', {session: false}),
         (req, res) => {
             const newForm = new Form();

@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://sx-d7p.anonymous.client.exp.direct",
-  "packagerNgrokUrl": "https://packager.sx-d7p.anonymous.client.exp.direct",
-  "ngrokPid": 26096,
-  "packagerPort": 19001,
-  "packagerPid": 26049
+  "expoServerPort": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "packagerPort": null,
+  "packagerPid": null
 }

@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 import * as SecureStore from 'expo-secure-store';
-import axios from 'axios';
 
 import ClassInfos from './ClassInfos';
 import { Button } from '../../../components/Button';
