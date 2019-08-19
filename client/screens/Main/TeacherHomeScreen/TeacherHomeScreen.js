@@ -9,6 +9,7 @@ import * as SecureStore from 'expo-secure-store';
 
 import ClassInfos from './ClassInfos';
 import { Button } from '../../../components/Button';
+import { getGroups } from './../../../actions/apiActions';
 
 /*
   * TODO :
@@ -16,10 +17,16 @@ import { Button } from '../../../components/Button';
   * Mettre un disabled sur les boutons + texte qui explique pourquoi quand on arrive pas à accéder à ID de classe en AsyncStorage
 */
 
+mapDispatchToProps = dispatch => {
+  return {
+    getGroups: params => dispatch(getGroups(params))
+  };
+}
+
 mapStateToProps = state => {
   return { 
     loggedInAccountUser: state.loggedInAccountUser,
-  }
+  };
 };
 
 class connectedTeacherHomeScreen extends Component {
@@ -31,6 +38,10 @@ class connectedTeacherHomeScreen extends Component {
     const headers = {
       'Authorization': 'Bearer ' + userToken
     };
+
+    console.log(userToken);
+
+    this.props.getGroups(headers);
 
     // recuperer tout les groupes affilies au compte connecté via une connected route
     // en utilisant le GET correspondant dans apiActions
@@ -75,6 +86,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const TeacherHomeScreen = connect(mapStateToProps)(connectedTeacherHomeScreen);
+const TeacherHomeScreen = connect(mapStateToProps, mapDispatchToProps)(connectedTeacherHomeScreen);
 
 export default TeacherHomeScreen;
