@@ -45,11 +45,16 @@ export function getGroups(payload) {
             headers: payload
         })
         .then((res) => {
-            console.log(res);
-            dispatch({ type: '' })
+            dispatch({ type: GROUPS_LOADED, payload: [10, 10] }) // replace with res.data when tests are finished
         })
         .catch((err) => {
             console.log(err); 
+            Alert.alert('Can‘t find your groups !', err, 
+                [
+                    {text: 'OK'}
+                ],
+                { cancelable: false }
+            )
             dispatch({ type: '' })
         })
 }}

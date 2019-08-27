@@ -11,10 +11,12 @@ import socketIO from 'socket.io-client';
 
 import { IP } from '../../constants/config';
 import { setSocket } from '../../actions/loginActions';
+import { getGroups } from '../../actions/apiActions';
 
 function mapDispatchToProps(dispatch) {
   return {
-    setSocket: socket => dispatch(setSocket(socket))
+    setSocket: socket => dispatch(setSocket(socket)),
+    getGroups: params => dispatch(getGroups(params))
   };
 }
 
@@ -39,6 +41,11 @@ class connectedAuthLoadingScreen extends React.Component {
           'query': 'token=' + userToken
       });
 
+      const headers = {
+        'Authorization': 'Bearer ' + userToken
+      };
+  
+      this.props.getGroups(headers);
       this.props.setSocket(socket);
 
       //  Here, we are checking his status in order to check what HomeScreen we should open

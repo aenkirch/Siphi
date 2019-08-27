@@ -10,4 +10,3 @@ export const ACCOUNT_LOGIN_FAIL = "ACCOUNT_LOGIN_FAIL";
 // API Actions Constants
 
 export const GROUPS_LOADED = "GROUPS_LOADED";
-export const GROUPS_LOADED_FAIL = "GROUPS_LOADED_FAIL";

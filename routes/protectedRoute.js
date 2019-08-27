@@ -26,8 +26,8 @@ module.exports = ({app, io}) => {
     api.get('/getGroups',
         passport.authenticate('jwt', {session: false}),
         (req, res) => {
-            console.log('oui !');
-            res.status(200).send('hey');
+            console.log(req.user);
+            res.status(200).send(req.user.classesIds);
     });
 
     api.post('/setForm', 

@@ -5,11 +5,10 @@ import {
   StyleSheet,
 } from 'react-native';
 import { connect } from "react-redux";
-import * as SecureStore from 'expo-secure-store';
 
 import ClassInfos from './ClassInfos';
 import { Button } from '../../../components/Button';
-import { getGroups } from './../../../actions/apiActions';
+import { LoadingScreen } from '../../../components/LoadingScreen';
 
 /*
   * TODO :
@@ -17,47 +16,24 @@ import { getGroups } from './../../../actions/apiActions';
   * Mettre un disabled sur les boutons + texte qui explique pourquoi quand on arrive pas à accéder à ID de classe en AsyncStorage
 */
 
-mapDispatchToProps = dispatch => {
-  return {
-    getGroups: params => dispatch(getGroups(params))
-  };
-}
-
 mapStateToProps = state => {
   return { 
-    loggedInAccountUser: state.loggedInAccountUser,
+    classesIds: state.classesIds,
   };
 };
 
 class connectedTeacherHomeScreen extends Component {
 
-  async componentWillMount(){
-    
-    const userToken = await SecureStore.getItemAsync('userToken');
-
-    const headers = {
-      'Authorization': 'Bearer ' + userToken
-    };
-
-    console.log(userToken);
-
-    this.props.getGroups(headers);
-
-    // recuperer tout les groupes affilies au compte connecté via une connected route
-    // en utilisant le GET correspondant dans apiActions
-
-    // utiliser un mapDispatchToProps 
-  }
-
   render(){
     return (
+      JSON.stringify( this.props.classesIds ) === JSON.stringify( [null] ) ? <LoadingScreen /> :  
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
 
-            <ClassInfos />
+            <ClassInfos classesIds={this.props.classesIds}/>
 
             <Button 
               title={"Create a new form"} 
@@ -86,6 +62,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const TeacherHomeScreen = connect(mapStateToProps, mapDispatchToProps)(connectedTeacherHomeScreen);
+const TeacherHomeScreen = connect(mapStateToProps)(connectedTeacherHomeScreen);
 
 export default TeacherHomeScreen;
