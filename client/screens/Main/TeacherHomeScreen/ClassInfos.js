@@ -19,22 +19,6 @@ export default class ClassInfos extends Component {
         return (
             <View>
                 <Text>hey {this.props.classesIds.length}</Text>
-
-                {this.props.classesIds.length > 0 ? (
-
-                        <Text>plpl</Text>
-
-                    ) : (
-                        <View>
-                            <Button
-                            title={"Create a new class"}
-                            />
-                            
-                            <Button
-                                title={"Create a new lecture"}
-                            />
-                        </View>
-                )}
             </View>
         );
     }

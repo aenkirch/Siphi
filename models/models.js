@@ -1,7 +1,9 @@
 const Form = require('./formModel');
 const User = require('./userModel');
+const Course = require('./courseModel');
 
 module.exports = {
     Form,
-    User
+    User,
+    Course  // équivalent : formation
 };

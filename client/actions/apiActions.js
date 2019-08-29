@@ -39,6 +39,57 @@ export function setForm(payload) {
     }
 };
 
+export function setCourse(payload) {
+    return function(dispatch) {
+        return axios.post(IP + '/api/setCourse', { 
+            data : {
+                name: payload.value.name,
+                label: payload.value.label
+            }}, { 
+            headers: payload.headers 
+        })
+        .then((res) => {
+            Alert.alert('Success !', 'Your course was created.', 
+                [
+                    {text: 'Great !'}
+                ],
+                { cancelable: false }
+            )
+            dispatch({ type: '' })
+        })
+        .catch((err) => {
+            console.log(err); 
+            Alert.alert('Error !', err, 
+                [
+                    {text: 'OK'}
+                ],
+                { cancelable: false }
+            )
+            dispatch({ type: '' })
+        })
+    }
+};
+
+export function getCourses(payload) {
+    return function(dispatch) {
+        return axios.get(IP + '/api/getCourses', {
+            headers: payload
+        })
+        .then((res) => {
+            dispatch({ type: '' }) // dans le redux store puis interpreter avec un for dans une liste (picker)
+        })
+        .catch((err) => {
+            console.log(err); 
+            Alert.alert('Can‘t find courses list !', err, 
+                [
+                    {text: 'OK'}
+                ],
+                { cancelable: false }
+            )
+            dispatch({ type: '' })
+        })
+}}
+
 export function getGroups(payload) {
     return function(dispatch) {
         return axios.get(IP + '/api/getGroups', {
