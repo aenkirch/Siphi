@@ -4,6 +4,7 @@ const socketioJwt = require('socketio-jwt');
 
 const config = require('../config');
 const Course = require('../models/courseModel');
+const Group = require('../models/groupModel');
 
 module.exports = ({app, io}) => {
 
@@ -32,7 +33,16 @@ module.exports = ({app, io}) => {
             })
     });
 
-    api.get('/getGroups',
+    api.post('/getGroups',
+        passport.authenticate('jwt', {session: false}),
+        (req, res) => {
+            Group.find({"courseLabel": req.body.data.courseLabel}, (err, groups) => {
+                if (err) console.log(err);
+                else res.status(200).send(groups);
+            })
+    });
+
+    api.get('/getUserClasses',
         passport.authenticate('jwt', {session: false}),
         (req, res) => {
             console.log(req.user);
@@ -64,7 +74,20 @@ module.exports = ({app, io}) => {
             newCourse.label = req.body.data.label;
             newCourse.save((err) => {
             if (err) console.log(err);
-            else res.status(200).send("Successfully created a new course !"); // tester la création de formation => à partir de là reproduire le choix que Ilié donnait sur son app avec le groupe
+            else res.status(200).send("Successfully created a new course !");
+            });
+    });
+
+    api.post('/setGroup', 
+        passport.authenticate('jwt', {session: false}),
+        (req, res) => {
+            console.log(req.body.data);
+            const newGroup = new Group();
+            newGroup.name = req.body.data.name;
+            newGroup.courseLabel = req.body.data.courseLabel;
+            newGroup.save((err) => {
+            if (err) console.log(err);
+            else res.status(200).send("Successfully created a new group !"); // tester la création de groupe
             });
     });
 

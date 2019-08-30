@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import {
   ScrollView,
   View,
-  StyleSheet
+  StyleSheet,
+  Text
 } from 'react-native';
 import { connect } from "react-redux";
 import t from 'tcomb-form-native';
 import * as SecureStore from 'expo-secure-store';
 
+import { Select } from '../../../components/Select';
 import { Button } from '../../../components/Button';
-import { setCourse } from '../../../actions/apiActions';
+import { setGroup } from '../../../actions/apiActions';
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCourse: params => dispatch(setCourse(params))
+    setGroup: params => dispatch(setGroup(params))
   };
 }
 
@@ -21,7 +23,6 @@ const Form = t.form.Form;
 
 const Question = t.struct({
   name: t.String,
-  label: t.String,
 });
 
 const options = {
@@ -29,31 +30,30 @@ const options = {
     name: {
       error: 'Your course need a name'
     },
-    label: {
-      error: 'Your course need a label'
-    }
   },
   stylesheet: formStyles,
 };
 
-class connectedCourseCreationScreen extends Component {
+class connectedGroupCreationScreen extends Component {
 
-  state = { token : {} }
+  state = { token : {}, selectedGroup: this.props.courses[0].label }
 
   async componentDidMount () {
     const userToken = await SecureStore.getItemAsync('userToken');
     this.setState({ token: userToken  });
   }
 
-  setCourse = () => {
+  setGroup = () => {
 
     const headers = {
       'Authorization': 'Bearer ' + this.state.token
     };
 
     if (this._form.validate().isValid() == true){
-      const value = this._form.getValue();
-      this.props.setCourse({  value, headers  });
+      const value = {};
+      value.name = this._form.getValue().name;
+      value.courseLabel = this.state.selectedGroup;
+      this.props.setGroup({  value, headers  });
     }
   };
 
@@ -64,6 +64,10 @@ class connectedCourseCreationScreen extends Component {
           style={styles.container}>
           <View style={styles.welcomeContainer}>
 
+            <Text style={styles.text}>First, select your course</Text>
+
+            <Select array={this.props.courses} selectedValue={this.state.selectedGroup} setValue={param => this.setState({selectedGroup: param})}/>
+
             <Form
               ref={c => this._form = c}
               type={Question}
@@ -72,7 +76,7 @@ class connectedCourseCreationScreen extends Component {
 
             <Button 
               title={"Save"} 
-              action={this.setCourse}
+              action={this.setGroup}
             />
 
           </View>
@@ -87,6 +91,10 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#ffffff',
   },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 17
+  }
 });
 
 const formStyles = {
@@ -114,9 +122,12 @@ const formStyles = {
 };
 
 const mapStateToProps = state => {
-    return { socket: state.socket }
+    return { 
+      socket: state.socket,
+      courses: state.courses
+    }
 };
 
-const CourseCreationScreen = connect(mapStateToProps, mapDispatchToProps)(connectedCourseCreationScreen);
+const GroupCreationScreen = connect(mapStateToProps, mapDispatchToProps)(connectedGroupCreationScreen);
 
-export default CourseCreationScreen;
+export default GroupCreationScreen;

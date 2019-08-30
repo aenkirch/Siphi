@@ -9,13 +9,16 @@ import { connect } from "react-redux";
 import * as SecureStore from 'expo-secure-store';
 import socketIO from 'socket.io-client';
 
+import { LoadingScreen } from '../../components/LoadingScreen';
 import { IP } from '../../constants/config';
 import { setSocket } from '../../actions/loginActions';
-import { getGroups } from '../../actions/apiActions';
+import { getUserClasses, getCourses, getGroups } from '../../actions/apiActions';
 
 function mapDispatchToProps(dispatch) {
   return {
     setSocket: socket => dispatch(setSocket(socket)),
+    getUserClasses: params => dispatch(getUserClasses(params)),
+    getCourses: params => dispatch(getCourses(params)),
     getGroups: params => dispatch(getGroups(params))
   };
 }
@@ -45,30 +48,40 @@ class connectedAuthLoadingScreen extends React.Component {
         'Authorization': 'Bearer ' + userToken
       };
   
-      this.props.getGroups(headers);
+      this.props.getUserClasses(headers);
       this.props.setSocket(socket);
 
       //  Here, we are checking his status in order to check what HomeScreen we should open
 
       const isTeacher = await AsyncStorage.getItem('isTeacher');
 
-      JSON.parse(isTeacher) ? this.props.navigation.navigate('TeacherHomeScreen') : this.props.navigation.navigate('StudentHomeScreen');
+      if (JSON.parse(isTeacher)){
+        await this.props.getCourses(headers);
+        this.props.getGroups({headers: headers, courseLabel: this.props.courses[0].label});
+        this.props.navigation.navigate('TeacherHomeScreen')
+      }
+      else {
+        this.props.navigation.navigate('StudentHomeScreen')
+      }
     }
     else
       this.props.navigation.navigate('Auth');
   };
 
-  // Render any loading content that you like here
+  // Render loading content while async content is being downloaded
   render() {
     return (
-      <View>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
-      </View>
+      <LoadingScreen />
     );
   }
 }
 
-const AuthLoadingScreen = connect(null, mapDispatchToProps)(connectedAuthLoadingScreen);
+const mapStateToProps = state => {
+  return { 
+    courses: state.courses
+  }
+};
+
+const AuthLoadingScreen = connect(mapStateToProps, mapDispatchToProps)(connectedAuthLoadingScreen);
 
 export default AuthLoadingScreen;

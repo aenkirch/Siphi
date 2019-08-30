@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_SOCKET, ACCOUNT_CREATED, ACCOUNT_CREATED_FAIL, ACCOUNT_LOGIN, ACCOUNT_LOGIN_FAIL, GROUPS_LOADED } from '../constants/Action-types';
+import { SET_SOCKET, ACCOUNT_CREATED, ACCOUNT_CREATED_FAIL, ACCOUNT_LOGIN, ACCOUNT_LOGIN_FAIL, GROUPS_LOADED, COURSES_LOADED, USER_CLASSES_LOADED } from '../constants/Action-types';
 
 const socketReducer = (state = {}, action) => {
     switch (action.type) {
@@ -47,13 +47,31 @@ const loggedInAccountErrorReducer = (state = '', action) => {
     }
 };
 
-const classesIdsReducer = (state = [null], action) => {
+const classesIdsReducer = (state = [], action) => {
     switch (action.type) {
-      case GROUPS_LOADED:
+      case USER_CLASSES_LOADED:
         return action.payload;
       default:
         return state;
     }
+};
+
+const coursesReducer = (state = [], action) => {
+  switch (action.type) {
+    case COURSES_LOADED:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+const groupsReducer = (state = [], action) => {
+  switch (action.type) {
+    case GROUPS_LOADED:
+      return action.payload;
+    default:
+      return state;
+  }
 };
 
 const rootReducer = combineReducers({
@@ -62,7 +80,9 @@ const rootReducer = combineReducers({
     createdAccountError: createdAccountErrorReducer,
     loggedInAccountUser: loggedInAccountUserReducer,
     loggedInAccountError: loggedInAccountErrorReducer,
-    socket: socketReducer
+    socket: socketReducer,
+    courses: coursesReducer,
+    groups: groupsReducer
 });
 
 export default rootReducer;

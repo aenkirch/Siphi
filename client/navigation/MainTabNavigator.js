@@ -12,6 +12,7 @@ import SettingsScreen from '../screens/Main/SettingsScreen';
 import TeacherHomeScreen from '../screens/Main/TeacherHomeScreen/TeacherHomeScreen';
 import FormCreationScreen from '../screens/Main/TeacherHomeScreen/FormCreationScreen';
 import CourseCreationScreen from '../screens/Main/TeacherHomeScreen/CourseCreationScreen';
+import GroupCreationScreen from '../screens/Main/TeacherHomeScreen/GroupCreationScreen';
 
 import StudentHomeScreen from '../screens/Main/StudentHomeScreen/StudentHomeScreen';
 import FormAnsweringScreen from '../screens/Main/StudentHomeScreen/FormAnsweringScreen';
@@ -20,6 +21,7 @@ const HomeStack = createStackNavigator({
   TeacherHomeScreen: TeacherHomeScreen,
   FormCreationScreen: FormCreationScreen,
   CourseCreationScreen: CourseCreationScreen,
+  GroupCreationScreen: GroupCreationScreen,
   StudentHomeScreen: StudentHomeScreen,
   FormAnsweringScreen: FormAnsweringScreen
 });

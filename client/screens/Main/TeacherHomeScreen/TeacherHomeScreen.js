@@ -2,15 +2,21 @@ import React, { Component } from 'react';
 import {
   ScrollView,
   View,
-  StyleSheet,
+  StyleSheet
 } from 'react-native';
 import { connect } from "react-redux";
 import * as SecureStore from 'expo-secure-store';
 
 import ClassInfos from './ClassInfos';
+import { Select } from '../../../components/Select';
 import { Button } from '../../../components/Button';
-import { LoadingScreen } from '../../../components/LoadingScreen';
-import { getCourses } from '../../../actions/apiActions';
+import { getGroups } from '../../../actions/apiActions';
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getGroups: params => dispatch(getGroups(params))
+  };
+}
 
 /*
   * TODO :
@@ -18,37 +24,38 @@ import { getCourses } from '../../../actions/apiActions';
   * Mettre un disabled sur les boutons + texte qui explique pourquoi quand on arrive pas à accéder à ID de classe en AsyncStorage
 */
 
-mapDispatchToProps = dispatch => {
-  return {
-    getCourses: params => dispatch(getCourses(params))
-  };
-}
-
 mapStateToProps = state => {
   return { 
     classesIds: state.classesIds,
+    courses: state.courses,
+    groups: state.groups
   };
 };
 
-isEqual = (ar1, ar2) => {
-  return JSON.stringify(ar1) === JSON.stringify(ar2);
-}
-
 class connectedTeacherHomeScreen extends Component {
 
-  async componentWillMount() {
-    const userToken = await SecureStore.getItemAsync('userToken');
+  state = {selectedCourse: this.props.courses[0].label, selectedGroup: {}};
 
+  async selectCourse (newCourse) {
+    this.setState({selectedCourse: newCourse});
+
+    const userToken = await SecureStore.getItemAsync('userToken');
     const headers = {
       'Authorization': 'Bearer ' + userToken
     };
-
-    this.props.getCourses(headers);
+    this.props.getGroups({headers: headers, courseLabel: newCourse});
   }
 
   render(){
+
+    if (this.props.groups) 
+      groupSelect = <Select 
+                      array={this.props.groups} 
+                      selectedValue={this.state.selectedGroup} 
+                      setValue={param => this.setState({selectedGroup: param})}/>
+    else groupSelect = null
+
     return (
-      isEqual(this.props.classesIds, [null]) ? <LoadingScreen /> :  
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
@@ -57,14 +64,23 @@ class connectedTeacherHomeScreen extends Component {
 
             <ClassInfos classesIds={this.props.classesIds}/>
 
+            <Select array={this.props.courses} selectedValue={this.state.selectedCourse} setValue={param => this.selectCourse(param)}/>
+
+            { groupSelect }
+
             <Button 
               title={"Create a new course"}
               action={() => this.props.navigation.navigate('CourseCreationScreen')}
             />
 
             <Button 
+              title={"Create a new group"}
+              action={() => this.props.navigation.navigate('GroupCreationScreen')}
+            />
+
+            <Button 
               title={"Create a new form"} 
-              action={() => this.props.navigation.navigate('FormCreationScreen')}
+              action={() => this.props.navigation.navigate('FormCreationScreen')} // mettre en paramètre 
             />
 
           </View>

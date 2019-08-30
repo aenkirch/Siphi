@@ -4,7 +4,7 @@ import { IP } from '../constants/config';
 import axios from 'axios';
 
 export function setSocket(payload) {
-    return { type: SET_SOCKET, payload }
+  return { type: SET_SOCKET, payload }
 };
 
 export function createAccount(payload) {

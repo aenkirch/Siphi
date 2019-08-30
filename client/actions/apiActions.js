@@ -1,4 +1,4 @@
-import { GROUPS_LOADED, GROUPS_LOADED_FAIL } from '../constants/Action-types';
+import { GROUPS_LOADED, GROUPS_LOADED_FAIL, COURSES_LOADED, USER_CLASSES_LOADED } from '../constants/Action-types';
 import { IP } from '../constants/config';
 
 import { Alert } from 'react-native';
@@ -55,6 +55,37 @@ export function setCourse(payload) {
                 ],
                 { cancelable: false }
             )
+            dispatch(getCourses(payload.headers)); // reloading courses list when created a new one
+        })
+        .catch((err) => {
+            console.log(err); 
+            Alert.alert('Error !', err, 
+                [
+                    {text: 'OK'}
+                ],
+                { cancelable: false }
+            )
+            dispatch({ type: '' })
+        })
+    }
+};
+
+export function setGroup(payload) {
+    return function(dispatch) {
+        return axios.post(IP + '/api/setGroup', { 
+            data : {
+                name: payload.value.name,
+                courseLabel: payload.value.courseLabel
+            }}, { 
+            headers: payload.headers 
+        })
+        .then((res) => {
+            Alert.alert('Success !', 'Your group was created.', 
+                [
+                    {text: 'Great !'}
+                ],
+                { cancelable: false }
+            )
             dispatch({ type: '' })
         })
         .catch((err) => {
@@ -76,7 +107,7 @@ export function getCourses(payload) {
             headers: payload
         })
         .then((res) => {
-            dispatch({ type: '' }) // dans le redux store puis interpreter avec un for dans une liste (picker)
+            dispatch({ type: COURSES_LOADED, payload: res.data })
         })
         .catch((err) => {
             console.log(err); 
@@ -92,15 +123,38 @@ export function getCourses(payload) {
 
 export function getGroups(payload) {
     return function(dispatch) {
-        return axios.get(IP + '/api/getGroups', {
-            headers: payload
+        return axios.post(IP + '/api/getGroups', { 
+            data : {
+                courseLabel: payload.courseLabel
+            }}, { 
+            headers: payload.headers
         })
         .then((res) => {
-            dispatch({ type: GROUPS_LOADED, payload: [10, 10] }) // replace with res.data when tests are finished
+            dispatch({ type: GROUPS_LOADED, payload: res.data })
         })
         .catch((err) => {
             console.log(err); 
-            Alert.alert('Can‘t find your groups !', err, 
+            Alert.alert('Can‘t find groups list !', err, 
+                [
+                    {text: 'OK'}
+                ],
+                { cancelable: false }
+            )
+            dispatch({ type: '' })
+        })
+}}
+
+export function getUserClasses(payload) {
+    return function(dispatch) {
+        return axios.get(IP + '/api/getUserClasses', {
+            headers: payload
+        })
+        .then((res) => {
+            dispatch({ type: USER_CLASSES_LOADED, payload: [10, 10] }) // TODO: replace with res.data when tests are finished
+        })
+        .catch((err) => {
+            console.log(err); 
+            Alert.alert('Can‘t find your classes !', err, 
                 [
                     {text: 'OK'}
                 ],
