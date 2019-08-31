@@ -9,8 +9,8 @@ export function Select(props) {
   return (
     <Picker
       selectedValue={props.selectedValue}
-      onValueChange={(itemValue, itemIndex) => 
-        props.setValue(itemValue)
+      onValueChange={(itemValue, itemIndex) => {
+        props.setValue(itemValue) }
       }
     >
         {props.array.map((prop, key) => {

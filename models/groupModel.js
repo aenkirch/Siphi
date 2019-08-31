@@ -6,6 +6,10 @@ const groupSchema = new mongoose.Schema({
         dropDups: true,
         required: true,
     },
+    label: { 
+        type: String,
+        required: true,
+    },
     courseLabel: { 
         type: String,
         required: true,

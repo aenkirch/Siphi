@@ -20,8 +20,6 @@ import FormAnsweringScreen from '../screens/Main/StudentHomeScreen/FormAnswering
 const HomeStack = createStackNavigator({
   TeacherHomeScreen: TeacherHomeScreen,
   FormCreationScreen: FormCreationScreen,
-  CourseCreationScreen: CourseCreationScreen,
-  GroupCreationScreen: GroupCreationScreen,
   StudentHomeScreen: StudentHomeScreen,
   FormAnsweringScreen: FormAnsweringScreen
 });
@@ -56,6 +54,8 @@ ChatStack.navigationOptions = {
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
+  CourseCreationScreen: CourseCreationScreen,
+  GroupCreationScreen: GroupCreationScreen,
 });
 
 SettingsStack.navigationOptions = {

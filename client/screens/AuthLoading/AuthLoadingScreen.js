@@ -13,13 +13,15 @@ import { LoadingScreen } from '../../components/LoadingScreen';
 import { IP } from '../../constants/config';
 import { setSocket } from '../../actions/loginActions';
 import { getUserClasses, getCourses, getGroups } from '../../actions/apiActions';
+import { selectCourse } from '../../actions/inAppActions';
 
 function mapDispatchToProps(dispatch) {
   return {
     setSocket: socket => dispatch(setSocket(socket)),
     getUserClasses: params => dispatch(getUserClasses(params)),
     getCourses: params => dispatch(getCourses(params)),
-    getGroups: params => dispatch(getGroups(params))
+    getGroups: params => dispatch(getGroups(params)),
+    selectCourse: params => dispatch(selectCourse(params))
   };
 }
 
@@ -57,6 +59,7 @@ class connectedAuthLoadingScreen extends React.Component {
 
       if (JSON.parse(isTeacher)){
         await this.props.getCourses(headers);
+        this.props.selectCourse(this.props.courses[0].label);
         this.props.getGroups({headers: headers, courseLabel: this.props.courses[0].label});
         this.props.navigation.navigate('TeacherHomeScreen')
       }

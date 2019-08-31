@@ -86,7 +86,7 @@ export function setGroup(payload) {
                 ],
                 { cancelable: false }
             )
-            dispatch({ type: '' })
+            dispatch(getGroups({courseLabel: payload.value.courseLabel, headers: payload.headers}));
         })
         .catch((err) => {
             console.log(err); 

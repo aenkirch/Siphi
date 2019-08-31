@@ -84,10 +84,11 @@ module.exports = ({app, io}) => {
             console.log(req.body.data);
             const newGroup = new Group();
             newGroup.name = req.body.data.name;
+            newGroup.label = req.body.data.name.replace(' ', '');
             newGroup.courseLabel = req.body.data.courseLabel;
             newGroup.save((err) => {
             if (err) console.log(err);
-            else res.status(200).send("Successfully created a new group !"); // tester la création de groupe
+            else res.status(200).send("Successfully created a new group !");
             });
     });
 

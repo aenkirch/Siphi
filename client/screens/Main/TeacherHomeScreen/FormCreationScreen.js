@@ -51,8 +51,15 @@ class connectedFormCreationScreen extends Component {
   state = { token : {} }
 
   async componentDidMount () {
+    const { navigation } = this.props;
+    const selectedCourse = navigation.getParam('selectedCourse', 'NO-ID');
+    const selectedGroup = navigation.getParam('selectedGroup', 'NO-ID');
+
     const userToken = await SecureStore.getItemAsync('userToken');
     this.setState({ token: userToken  });
+
+    console.log(selectedCourse);
+    console.log(selectedGroup);
   }
 
   // faire appel au POST correspondant dans apiActions

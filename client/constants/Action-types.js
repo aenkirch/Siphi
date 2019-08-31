@@ -12,3 +12,9 @@ export const ACCOUNT_LOGIN_FAIL = "ACCOUNT_LOGIN_FAIL";
 export const GROUPS_LOADED = "GROUPS_LOADED";
 export const COURSES_LOADED = "COURSES_LOADED";
 export const USER_CLASSES_LOADED = "USER_CLASSES_LOADED";
+
+// Actions done in app
+
+export const COURSE_SELECTED = "COURSE_SELECTED";
+export const GROUP_SELECTED = "GROUP_SELECTED";
+export const GROUPS_RESET = "GROUPS_RESET";
