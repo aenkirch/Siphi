@@ -1,9 +1,6 @@
 import React from 'react';
 import {
-  ActivityIndicator,
-  StatusBar,
-  AsyncStorage,
-  View,
+  AsyncStorage
 } from 'react-native';
 import { connect } from "react-redux";
 import * as SecureStore from 'expo-secure-store';
@@ -13,7 +10,7 @@ import axios from 'axios';
 import { LoadingScreen } from '../../components/LoadingScreen';
 import { IP } from '../../constants/config';
 import { setSocket } from '../../actions/loginActions';
-import { getCourses, getGroups } from '../../actions/apiActions';
+import { getCourses, getGroups, getAvailableForms, getInfosAboutGroups } from '../../actions/apiActions';
 import { selectCourse } from '../../actions/inAppActions';
 
 function mapDispatchToProps(dispatch) {
@@ -21,7 +18,9 @@ function mapDispatchToProps(dispatch) {
     setSocket: socket => dispatch(setSocket(socket)),
     getCourses: params => dispatch(getCourses(params)),
     getGroups: params => dispatch(getGroups(params)),
-    selectCourse: params => dispatch(selectCourse(params))
+    selectCourse: params => dispatch(selectCourse(params)),
+    getAvailableForms: param => dispatch(getAvailableForms(param)),
+    getInfosAboutGroups: param => dispatch(getInfosAboutGroups(param))
   };
 }
 
@@ -31,12 +30,14 @@ class connectedAuthLoadingScreen extends React.Component {
     this._bootstrapAsync();
   }
 
-  // doing a useless request to check if jwt is still recognized on server side
+  state = {connectedUser: {}};
+
+  // doing a request to check if jwt is still recognized on server side
   verifyToken = async (jwtInHeaders) => { 
     const res = await axios.get(IP + '/api/verificationRequest', {
       headers: jwtInHeaders
     })
-    .then(res => {return true;})
+    .then(res => {this.setState({connectedUser: res.data}); return true;})
     .catch(err => {return false;})
 
     return res;
@@ -78,6 +79,9 @@ class connectedAuthLoadingScreen extends React.Component {
         this.props.navigation.navigate('TeacherHomeScreen')
       }
       else {
+        console.log(this.state.connectedUser);
+        await this.props.getAvailableForms(headers);
+        await this.props.getInfosAboutGroups(headers);
         this.props.navigation.navigate('StudentHomeScreen')
       }
     }
@@ -95,7 +99,8 @@ class connectedAuthLoadingScreen extends React.Component {
 
 const mapStateToProps = state => {
   return { 
-    courses: state.courses
+    courses: state.courses,
+    loggedInAccountUser: state.loggedInAccountUser
   }
 };
 

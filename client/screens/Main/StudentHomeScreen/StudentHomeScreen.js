@@ -3,19 +3,41 @@ import {
   ScrollView,
   View,
   StyleSheet,
+  Text
 } from 'react-native';
+import { connect } from "react-redux";
 
 import { Button } from '../../../components/Button';
 
-/*
-  * TODO :
-  *
-  *
-*/
+mapStateToProps = state => {
+  return {
+    availableForms: state.availableForms,
+    myGroupInfos: state.myGroupInfos
+  };
+};
 
-class StudentHomeScreen extends Component {
+class connectedStudentHomeScreen extends Component {
 
   render(){
+
+    availableForms = this.props.availableForms;
+    myGroupInfos = this.props.myGroupInfos;
+
+    if (this.props.availableForms && this.props.myGroupInfos) {
+      toRender = (
+        <View>
+          {availableForms.map(form => {
+            return (
+              <Button 
+                title={"New form - " + myGroupInfos[form.relatedGroup].courseLabel + " " + myGroupInfos[form.relatedGroup].name} 
+                action={() => this.props.navigation.navigate('FormAnsweringScreen', {selectedForm: form})}
+                key={form._id}
+              />
+            )
+          })}
+        </View>)
+    }
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -23,10 +45,7 @@ class StudentHomeScreen extends Component {
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
 
-            <Button 
-                title={"Answer latest form"} 
-                action={() => this.props.navigation.navigate('FormAnsweringScreen')}
-            />
+            { toRender }
 
           </View>
         </ScrollView>
@@ -35,7 +54,7 @@ class StudentHomeScreen extends Component {
   }
 }
 
-StudentHomeScreen.navigationOptions = {
+connectedStudentHomeScreen.navigationOptions = {
   header: null,
 };
 
@@ -49,5 +68,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   }
 });
+
+const StudentHomeScreen = connect(mapStateToProps)(connectedStudentHomeScreen);
 
 export default StudentHomeScreen;

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_SOCKET, ACCOUNT_CREATED, ACCOUNT_CREATED_FAIL, ACCOUNT_LOGIN, ACCOUNT_LOGIN_FAIL, GROUPS_LOADED, COURSES_LOADED, COURSE_SELECTED, GROUP_SELECTED, GROUPS_RESET } from '../constants/Action-types';
+import { SET_SOCKET, ACCOUNT_CREATED, ACCOUNT_CREATED_FAIL, ACCOUNT_LOGIN, ACCOUNT_LOGIN_FAIL, GROUPS_LOADED, COURSES_LOADED, COURSE_SELECTED, GROUP_SELECTED, GROUPS_RESET, FORMS_AVAILABLE, INFOS_ABOUT_MY_GROUPS } from '../constants/Action-types';
 
 const socketReducer = (state = {}, action) => {
     switch (action.type) {
@@ -85,6 +85,24 @@ const selectedGroupReducer = (state = '', action) => {
   }
 };
 
+const availableFormsReducer = (state = [], action) => {
+  switch (action.type) {
+    case FORMS_AVAILABLE:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+const myGroupInfosReducer = (state = {}, action) => {
+  switch (action.type) {
+    case INFOS_ABOUT_MY_GROUPS:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
     createdAccountUsername: createdAccountUsernameReducer,
     createdAccountError: createdAccountErrorReducer,
@@ -94,7 +112,9 @@ const rootReducer = combineReducers({
     courses: coursesReducer,
     groups: groupsReducer,
     selectedGroup: selectedGroupReducer,
-    selectedCourse: selectedCourseReducer
+    selectedCourse: selectedCourseReducer,
+    availableForms: availableFormsReducer,
+    myGroupInfos: myGroupInfosReducer
 });
 
 export default rootReducer;

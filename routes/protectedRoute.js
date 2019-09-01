@@ -28,7 +28,7 @@ module.exports = ({app, io}) => {
     api.get('/verificationRequest',
         passport.authenticate('jwt', {session: false}),
         (req, res) => {
-            res.status(200).send('Your JWT is recognized !');
+            res.status(200).send(req.user);
     });
 
     api.get('/getCourses',
@@ -38,6 +38,48 @@ module.exports = ({app, io}) => {
                 if (err) console.log(err);
                 else res.status(200).send(courses);
             })
+    });
+
+    api.get('/getAvailableForms',
+        passport.authenticate('jwt', {session: false}),
+        async (req, res) => {
+            const userGroups = req.user.groups; 
+            let availableForms = [];
+
+            try {
+                for (let i = 0 ; i < userGroups.length ; i++) {
+                    await Form.find({"relatedGroup": userGroups[i]}, (err, groups) => {
+                        if (err) console.log(err);
+                        groups.forEach(grp => availableForms.push(grp));
+                    })
+                }
+            }
+
+            finally {
+                //console.log(availableForms);
+                res.status(200).send(availableForms);
+            }
+    });
+
+    api.get('/getInfosAboutGroups',
+        passport.authenticate('jwt', {session: false}),
+        async (req, res) => {
+            const userGroups = req.user.groups; 
+            let groupsInfos = {};
+
+            try {
+                for (let i = 0 ; i < userGroups.length ; i++) {
+                    await Group.findById(userGroups[i], (err, result) => {
+                        if (err) console.log(err);
+                        groupsInfos[result._id] = result;
+                    })
+                }
+            }
+
+            finally {
+                //console.log(groupsInfos);
+                res.status(200).send(groupsInfos);
+            }
     });
 
     api.post('/getGroups',
@@ -63,6 +105,7 @@ module.exports = ({app, io}) => {
                     newForm.a4 = req.body.data.answer4;
                     newForm.a5 = req.body.data.answer5;
                     newForm.relatedGroup = group[0]._id;
+                    newForm.completedBy = [];
                     newForm.save((err) => {
                     if (err) console.log(err);
                     else res.status(200).send("Successfully created form !");

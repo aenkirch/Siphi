@@ -1,4 +1,4 @@
-import { GROUPS_LOADED, COURSES_LOADED } from '../constants/Action-types';
+import { GROUPS_LOADED, COURSES_LOADED, FORMS_AVAILABLE, INFOS_ABOUT_MY_GROUPS } from '../constants/Action-types';
 import { IP } from '../constants/config';
 
 import { Alert } from 'react-native';
@@ -114,13 +114,7 @@ export function getCourses(payload) {
             dispatch({ type: COURSES_LOADED, payload: res.data })
         })
         .catch((err) => {
-            console.log(err); 
-            Alert.alert('Can‘t find courses list !', err, 
-                [
-                    {text: 'OK'}
-                ],
-                { cancelable: false }
-            )
+            console.log(err);
             dispatch({ type: '' })
         })
 }}
@@ -137,13 +131,35 @@ export function getGroups(payload) {
             dispatch({ type: GROUPS_LOADED, payload: res.data })
         })
         .catch((err) => {
+            console.log(err);
+            dispatch({ type: '' })
+        })
+}}
+
+export function getAvailableForms(payload) {
+    return async function(dispatch) {
+        return await axios.get(IP + '/api/getAvailableForms', {
+            headers: payload
+        })
+        .then((res) => {
+            dispatch({ type: FORMS_AVAILABLE, payload: res.data })
+        })
+        .catch((err) => {
             console.log(err); 
-            Alert.alert('Can‘t find groups list !', err, 
-                [
-                    {text: 'OK'}
-                ],
-                { cancelable: false }
-            )
+            dispatch({ type: '' })
+        })
+}}
+
+export function getInfosAboutGroups(payload) {
+    return async function(dispatch) {
+        return await axios.get(IP + '/api/getInfosAboutGroups', {
+            headers: payload
+        })
+        .then((res) => {
+            dispatch({ type: INFOS_ABOUT_MY_GROUPS, payload: res.data })
+        })
+        .catch((err) => {
+            console.log(err); 
             dispatch({ type: '' })
         })
 }}

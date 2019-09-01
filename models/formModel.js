@@ -26,6 +26,10 @@ const formSchema = new mongoose.Schema({
     relatedGroup: { 
         type: String,
         required: true,
+    },
+    completedBy: { 
+        type: Array,
+        required: true,
     }
 });
 
