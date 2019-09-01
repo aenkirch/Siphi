@@ -55,7 +55,7 @@ class connectedFormCreationScreen extends Component {
     this.setState({ token: userToken  });
   }
 
-  // faire appel au POST correspondant dans apiActions
+  // => Attaquer la partie réponses dans StudentHomeScreen.js
 
   createForm = () => {
 

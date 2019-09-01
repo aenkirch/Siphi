@@ -31,9 +31,11 @@ export function loginAccount(payload) {
       password: payload.password
     })
     .then((res) => {
+      console.log(res.data);
       dispatch({ type: ACCOUNT_LOGIN, payload: res.data })
     })
     .catch((err) => {
+      console.log(err);
       dispatch({ type: ACCOUNT_LOGIN_FAIL, payload: err.response.data })
     })
   }

@@ -9,10 +9,7 @@ const UserModel = require('./models/userModel');
 const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
-passport.use(new LocalStrategy({
-        usernameField: 'username',
-        passwordField: 'password'
-    },
+passport.use(new LocalStrategy(
     async (username, password, done) => {
 
         try {
@@ -38,7 +35,7 @@ passport.use(new JWTStrategy({
     function (jwtPayload, cb) {
 
         //find the user in db if needed
-        return UserModel.findOne(jwtPayload.id)
+        return UserModel.findOne({_id: jwtPayload._id})
         .then(user => {
             return cb(null, user);
         })
