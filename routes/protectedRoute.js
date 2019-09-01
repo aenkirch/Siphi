@@ -5,6 +5,7 @@ const socketioJwt = require('socketio-jwt');
 const config = require('../config');
 const Course = require('../models/courseModel');
 const Group = require('../models/groupModel');
+const Form = require('../models/formModel');
 
 module.exports = ({app, io}) => {
 
@@ -22,6 +23,12 @@ module.exports = ({app, io}) => {
             console.log(msg[0].text);
         });
 
+    });
+
+    api.get('/verificationRequest',
+        passport.authenticate('jwt', {session: false}),
+        (req, res) => {
+            res.status(200).send('Your JWT is recognized !');
     });
 
     api.get('/getCourses',
@@ -42,27 +49,26 @@ module.exports = ({app, io}) => {
             })
     });
 
-    api.get('/getUserClasses',
-        passport.authenticate('jwt', {session: false}),
-        (req, res) => {
-            console.log(req.user);
-            res.status(200).send(req.user.classesIds);
-    });
-
     api.post('/setForm', 
         passport.authenticate('jwt', {session: false}),
         (req, res) => {
-            const newForm = new Form();
-            newForm.name = req.body.data.question;
-            newForm.a1 = req.body.data.answer1;
-            newForm.a2 = req.body.data.answer2;
-            newForm.a3 = req.body.data.answer3;
-            newForm.a4 = req.body.data.answer4;
-            newForm.a5 = req.body.data.answer5;
-            newForm.save((err) => {
-            if (err) console.log(err);
-            else res.status(200).send("Successfully created form !");
-            });
+            Group.find({"courseLabel": req.body.data.selectedCourse, "name": req.body.data.selectedGroup}, (err, group) => {
+                if (err) console.log(err);
+                else {
+                    const newForm = new Form();
+                    newForm.name = req.body.data.question;
+                    newForm.a1 = req.body.data.answer1;
+                    newForm.a2 = req.body.data.answer2;
+                    newForm.a3 = req.body.data.answer3;
+                    newForm.a4 = req.body.data.answer4;
+                    newForm.a5 = req.body.data.answer5;
+                    newForm.relatedGroup = group[0]._id;
+                    newForm.save((err) => {
+                    if (err) console.log(err);
+                    else res.status(200).send("Successfully created form !");
+                    });
+                }
+            })
     });
 
     api.post('/setCourse', 

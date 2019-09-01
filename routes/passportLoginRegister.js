@@ -22,8 +22,8 @@ router.post('/register', async (req, res) => {
         }
 
         const passwordHash = await bcrypt.hash(password, hashCost);
-        const classesIds = [];
-        const userDocument = new UserModel({ username, passwordHash, isTeacher, classesIds });
+        const groups = [];
+        const userDocument = new UserModel({ username, passwordHash, isTeacher, groups });
         await userDocument.save();
 
         res.status(200).send({ username });

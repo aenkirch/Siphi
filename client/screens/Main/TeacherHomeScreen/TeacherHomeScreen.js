@@ -25,8 +25,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 mapStateToProps = state => {
-  return { 
-    classesIds: state.classesIds,
+  return {
     courses: state.courses,
     groups: state.groups,
     selectedCourse: state.selectedCourse,
@@ -78,7 +77,7 @@ class connectedTeacherHomeScreen extends Component {
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
 
-            <ClassInfos classesIds={this.props.classesIds}/>
+            <ClassInfos />
 
             {this.state.confirmedChoice ? 
               (

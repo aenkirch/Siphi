@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    classesIds: {
+    groups: {
         type: Array,
         required: true
     }

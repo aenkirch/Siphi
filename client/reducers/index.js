@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_SOCKET, ACCOUNT_CREATED, ACCOUNT_CREATED_FAIL, ACCOUNT_LOGIN, ACCOUNT_LOGIN_FAIL, GROUPS_LOADED, COURSES_LOADED, USER_CLASSES_LOADED, COURSE_SELECTED, GROUP_SELECTED, GROUPS_RESET } from '../constants/Action-types';
+import { SET_SOCKET, ACCOUNT_CREATED, ACCOUNT_CREATED_FAIL, ACCOUNT_LOGIN, ACCOUNT_LOGIN_FAIL, GROUPS_LOADED, COURSES_LOADED, COURSE_SELECTED, GROUP_SELECTED, GROUPS_RESET } from '../constants/Action-types';
 
 const socketReducer = (state = {}, action) => {
     switch (action.type) {
@@ -47,15 +47,6 @@ const loggedInAccountErrorReducer = (state = '', action) => {
     }
 };
 
-const classesIdsReducer = (state = [], action) => {
-    switch (action.type) {
-      case USER_CLASSES_LOADED:
-        return action.payload;
-      default:
-        return state;
-    }
-};
-
 const coursesReducer = (state = [], action) => {
   switch (action.type) {
     case COURSES_LOADED:
@@ -95,7 +86,6 @@ const selectedGroupReducer = (state = '', action) => {
 };
 
 const rootReducer = combineReducers({
-    classesIds: classesIdsReducer,
     createdAccountUsername: createdAccountUsernameReducer,
     createdAccountError: createdAccountErrorReducer,
     loggedInAccountUser: loggedInAccountUserReducer,

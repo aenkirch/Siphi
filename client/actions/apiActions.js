@@ -1,8 +1,10 @@
-import { GROUPS_LOADED, GROUPS_LOADED_FAIL, COURSES_LOADED, USER_CLASSES_LOADED } from '../constants/Action-types';
+import { GROUPS_LOADED, COURSES_LOADED } from '../constants/Action-types';
 import { IP } from '../constants/config';
 
 import { Alert } from 'react-native';
 import axios from 'axios';
+
+import store from '../store/index';
 
 export function setForm(payload) {
     return function(dispatch) {
@@ -13,7 +15,9 @@ export function setForm(payload) {
                 answer2: payload.value.answer2,
                 answer3: payload.value.answer3,
                 answer4: payload.value.answer4,
-                answer5: payload.value.answer5
+                answer5: payload.value.answer5,
+                selectedGroup: store.getState().selectedGroup,
+                selectedCourse: store.getState().selectedCourse
             }}, { 
             headers: payload.headers 
         })
@@ -135,26 +139,6 @@ export function getGroups(payload) {
         .catch((err) => {
             console.log(err); 
             Alert.alert('Can‘t find groups list !', err, 
-                [
-                    {text: 'OK'}
-                ],
-                { cancelable: false }
-            )
-            dispatch({ type: '' })
-        })
-}}
-
-export function getUserClasses(payload) {
-    return function(dispatch) {
-        return axios.get(IP + '/api/getUserClasses', {
-            headers: payload
-        })
-        .then((res) => {
-            dispatch({ type: USER_CLASSES_LOADED, payload: [10, 10] }) // TODO: replace with res.data when tests are finished
-        })
-        .catch((err) => {
-            console.log(err); 
-            Alert.alert('Can‘t find your classes !', err, 
                 [
                     {text: 'OK'}
                 ],

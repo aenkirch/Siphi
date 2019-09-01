@@ -13,12 +13,10 @@ import { Button } from '../../../components/Button';
 
 export default class ClassInfos extends Component {
 
-    // afficher des disabled buttons pour certains trucs en fonction de this.props.classesIds.length
-
     render() {
         return (
             <View>
-                <Text>hey {this.props.classesIds.length}</Text>
+                
             </View>
         );
     }

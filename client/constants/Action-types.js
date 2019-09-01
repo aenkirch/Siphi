@@ -11,7 +11,6 @@ export const ACCOUNT_LOGIN_FAIL = "ACCOUNT_LOGIN_FAIL";
 
 export const GROUPS_LOADED = "GROUPS_LOADED";
 export const COURSES_LOADED = "COURSES_LOADED";
-export const USER_CLASSES_LOADED = "USER_CLASSES_LOADED";
 
 // Actions done in app
 
