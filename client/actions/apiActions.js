@@ -187,3 +187,90 @@ export function answerForm(payload) {
             dispatch({ type: '' })
         })
 }}
+
+export function getTopics(payload){
+    return function(dispatch) {
+        console.log(payload);
+        return axios.get(IP + '/api/getTopics', {
+            headers: payload
+        })
+        .then((res) => {
+            dispatch({ type: '' });
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err); 
+            dispatch({ type: '' });
+        })
+
+///5d6b8f70ba682b0b55a2693a
+}}
+
+export function SetTopic(payload){
+    return function(dispatch){
+        return axios({
+            method: 'POST',
+            url: IP + '/api/setTopic',
+            headers: payload.headers,
+            data: {
+                topic:payload.topicname
+            }
+        }).then((res) => {
+            dispatch({ type: '' })
+          })
+          .catch((err) => {
+            console.log(err.request); 
+            Alert.alert('Error !', err, 
+                [
+                    {text: 'OK'}
+                ],
+                { cancelable: false }
+            )
+            dispatch({ type: '' })
+          })
+    }
+}
+
+export function setComments(payload){
+    return function(dispatch){
+        return axios({
+            method: 'POST',
+            url: IP + '/api/setComment',
+            headers: payload.headers,
+            data: {
+                date:payload.today,
+                comment:payload.com,
+                topic:payload.topic
+            }
+        }).then((res) => {
+            dispatch({ type: '' })
+          })
+          .catch((err) => {
+            console.log(err); 
+            Alert.alert('Error !', err, 
+                [
+                    {text: 'OK'}
+                ],
+                { cancelable: false }
+            )
+            dispatch({ type: '' })
+          })
+    }
+}
+
+
+export function getComments(payload){
+    return function(dispatch){
+        return axios.get(IP + '/api/getComments/'+payload.top,{
+            headers: payload.headers
+        })
+        .then((res) => {
+            dispatch({type: ''});
+            return res.data
+        })
+        .catch((err) => {
+            console.log(err);
+            dispatch({type:''});
+        })
+    }
+}

@@ -6,6 +6,9 @@ const config = require('../config');
 const Course = require('../models/courseModel');
 const Group = require('../models/groupModel');
 const Form = require('../models/formModel');
+const Topic = require('../models/topicModel');
+const Comment = require('../models/commentModel');
+
 
 // TODO : improve async requests
 
@@ -154,6 +157,62 @@ module.exports = ({app, io}) => {
                 else res.status(200).send("Successfully submitted ")
             })
     });
+
+    api.get('/getTopics/',
+        passport.authenticate('jwt', {session: false}),
+        (req, res) => {
+            console.log(req.user.groups[0]);
+            Topic.find({group: req.user.groups[0].toString()}, (err, topics) => {
+                res.json(topics)
+            });
+    });
+
+    api.post('/setTopic/',
+        passport.authenticate('jwt', {session: false}),
+        (req, res)=> {
+            const newTopic = new Topic();
+            newTopic.author = req.user.username;
+            newTopic.topic = req.body.topic;
+            newTopic.save((err) => {
+                if(err) console.log(err.request);
+                else res.status(200).send("Successfully created topic");
+
+            });
+    });
+
+
+    api.post('/setComment',
+        passport.authenticate('jwt', {session: false}),
+        (req, res)=> {
+            
+            const newComment = new Comment();
+            newComment.username = req.user.username;
+            newComment.date = req.body.date;
+            newComment.comment = req.body.comment;
+            newComment.likes = 0;
+            newComment.topic = req.body.topic;
+            newComment.save((err) => {
+                if(err){
+                    console.log(err);
+                }else{
+                    res.status(200).send("Successfully created comment");
+                } 
+            });
+    });
+
+    api.get('/getComments/:topic',
+        passport.authenticate('jwt', {session: false}),
+        (req, res) => {
+            // res.send(req.params.likes)
+            // var nom_topic = req.param('likes');
+
+            // console.log('get Comments');
+            Comment.find({topic: req.params.topic.toString()}, (err, comments) => {
+                res.json(comments)
+            });
+    });
+
+
 
     return api;
 }

@@ -58,13 +58,13 @@ class connectedSignInScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <View style={{marginTop:100}}>
           <Form
             ref={c => this._form = c}
             type={User}
             options={options}
           />
-        </ScrollView>
+        </View>
         <View>
           <Button title={"Sign in"} action={this.signIn} />
         </View>
@@ -103,9 +103,8 @@ connectedSignInScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#2f95dc',
     flex: 1
   }
 });
@@ -114,10 +113,10 @@ const formStyles = {
   ...Form.stylesheet,
   controlLabel: {
     normal: {
-      color: 'blue',
+      color: 'white',
       fontSize: 18,
       marginBottom: 7,
-      fontWeight: '600'
+      fontWeight: '600',
     },
     // the style applied when a validation error occours
     error: {

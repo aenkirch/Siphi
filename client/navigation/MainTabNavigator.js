@@ -17,6 +17,10 @@ import GroupCreationScreen from '../screens/Main/TeacherHomeScreen/GroupCreation
 import StudentHomeScreen from '../screens/Main/StudentHomeScreen/StudentHomeScreen';
 import FormAnsweringScreen from '../screens/Main/StudentHomeScreen/FormAnsweringScreen';
 
+import ForumScreen from '../screens/Main/Forum/ForumScreen';
+import TopicScreen from '../screens/Main/Forum/TopicScreen';
+import CreateTopicScreen from '../screens/Main/Forum/CreateTopicsScreen';
+
 const HomeStack = createStackNavigator({
   TeacherHomeScreen: TeacherHomeScreen,
   FormCreationScreen: FormCreationScreen,
@@ -52,6 +56,22 @@ ChatStack.navigationOptions = {
   ),
 };
 
+const ForumStack = createStackNavigator({
+  Forum: ForumScreen,
+  Topic: TopicScreen,
+  CreateTopic: CreateTopicScreen
+});
+
+ForumStack.navigationOptions = {
+  tabBarLabel: 'Forum',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-chatboxes' : 'md-chatboxes'}
+    />
+  ),
+};
+
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
   CourseCreationScreen: CourseCreationScreen,
@@ -71,5 +91,6 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   ChatStack,
+  ForumStack,
   SettingsStack,
 });

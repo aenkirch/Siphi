@@ -17,14 +17,15 @@ class AuthScreen extends React.Component {
         <Image
             style={{
                 resizeMode: 'contain',
+                marginTop: 100,
                 width: '90%',
             }}
-            source={require('../../assets/images/roman2.jpg')}
+            source={require('../../assets/images/logo-hat.png')}
         />
-        <ScrollView>
+        {/* <ScrollView>
             <Text style={styles.titleText}>Welcome to Siphi</Text>
-        </ScrollView>
-        <View>
+        </ScrollView> */}
+        <View style={{marginTop : 50}}>
             <Button title={"Sign in"} action={this.onClickSignIn}/>
             <Button title={"Sign up"} action={this.onClickSignUp}/>
         </View>
@@ -48,9 +49,9 @@ AuthScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 0,
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#2f95dc',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1
@@ -59,7 +60,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     paddingTop: 20,
-    paddingBottom: 60
+    paddingBottom: 60,
+    color:'#184b6c'
+
   }
 });
 
