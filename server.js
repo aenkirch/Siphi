@@ -23,7 +23,7 @@ app.use((req, res, next)=>{ res.locals['socketio'] = io; next(); });
 app.use('/', loginRoute);
 app.use('/api', socket({app, io}));
 
-mongoose.connect(config.MONGO_URI, { useNewUrlParser: true }, (err) => {
+mongoose.connect(config.MONGO_URI, { useNewUrlParser: true, useFindAndModify: false }, (err) => {
   console.log('mongodb connected');
   if (err) console.log(err);
 });

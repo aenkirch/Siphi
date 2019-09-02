@@ -55,8 +55,6 @@ class connectedFormCreationScreen extends Component {
     this.setState({ token: userToken  });
   }
 
-  // => Attaquer la partie réponses dans StudentHomeScreen.js
-
   createForm = () => {
 
     const headers = {

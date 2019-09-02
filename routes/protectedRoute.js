@@ -7,6 +7,8 @@ const Course = require('../models/courseModel');
 const Group = require('../models/groupModel');
 const Form = require('../models/formModel');
 
+// TODO : improve async requests
+
 module.exports = ({app, io}) => {
 
     const api = express.Router(app);
@@ -56,7 +58,7 @@ module.exports = ({app, io}) => {
             }
 
             finally {
-                //console.log(availableForms);
+                console.log(availableForms);
                 res.status(200).send(availableForms);
             }
     });
@@ -77,7 +79,7 @@ module.exports = ({app, io}) => {
             }
 
             finally {
-                //console.log(groupsInfos);
+                console.log(groupsInfos);
                 res.status(200).send(groupsInfos);
             }
     });
@@ -139,6 +141,18 @@ module.exports = ({app, io}) => {
             if (err) console.log(err);
             else res.status(200).send("Successfully created a new group !");
             });
+    });
+
+    api.post('/answerForm', 
+        passport.authenticate('jwt', {session: false}),
+        (req, res) => {
+            console.log(req.body.data);
+            const update = {$push: { completedBy: { studentId: req.user._id, answer: req.body.data.submittedAnswer } }};
+            Form.findByIdAndUpdate(req.body.data.formId, update)
+            .then((success, err) => {
+                if (err) console.log(err);
+                else res.status(200).send("Successfully submitted ")
+            })
     });
 
     return api;

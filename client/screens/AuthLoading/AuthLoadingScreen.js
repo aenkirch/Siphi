@@ -3,6 +3,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import { connect } from "react-redux";
+import { StackActions, NavigationActions } from 'react-navigation';
 import * as SecureStore from 'expo-secure-store';
 import socketIO from 'socket.io-client';
 import axios from 'axios';
@@ -82,7 +83,13 @@ class connectedAuthLoadingScreen extends React.Component {
         console.log(this.state.connectedUser);
         await this.props.getAvailableForms(headers);
         await this.props.getInfosAboutGroups(headers);
-        this.props.navigation.navigate('StudentHomeScreen')
+        const resetAction = StackActions.reset({
+          index: 0, // <-- currect active route from actions array
+          actions: [
+            NavigationActions.navigate({ routeName: 'StudentHomeScreen' }),
+          ],
+        });
+        await this.props.navigation.dispatch(resetAction);
       }
     }
     else

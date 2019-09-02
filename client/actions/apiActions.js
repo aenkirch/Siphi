@@ -163,3 +163,27 @@ export function getInfosAboutGroups(payload) {
             dispatch({ type: '' })
         })
 }}
+
+export function answerForm(payload) {
+    return function(dispatch) {
+        return axios.post(IP + '/api/answerForm', { 
+            data : {
+                formId: payload.value.formId,
+                submittedAnswer: payload.value.submittedAnswer
+            }}, { 
+            headers: payload.headers
+        })
+        .then((res) => {
+            Alert.alert('Success !', 'Your answer was submitted to the teacher.', 
+                [
+                    {text: 'Great !'}
+                ],
+                { cancelable: false }
+            )
+            dispatch({ type: '' })
+        })
+        .catch((err) => {
+            console.log(err);
+            dispatch({ type: '' })
+        })
+}}
