@@ -172,6 +172,7 @@ module.exports = ({app, io}) => {
         (req, res)=> {
             const newTopic = new Topic();
             newTopic.author = req.user.username;
+            newTopic.group = req.user.groups[0];
             newTopic.topic = req.body.topic;
             newTopic.save((err) => {
                 if(err) console.log(err.request);
