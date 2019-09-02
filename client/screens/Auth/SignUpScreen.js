@@ -51,13 +51,13 @@ class connectedSignUpScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <View style={{marginTop:100}}>
           <Form
             ref={c => this._form = c}
             type={User}
             options={options}
           />
-        </ScrollView>
+        </View>
         <View>
           <Button title={"Sign up"} action={this._signUpAsync} />
         </View>
@@ -99,9 +99,8 @@ connectedSignUpScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#2f95dc',
     flex: 1
   }
 });

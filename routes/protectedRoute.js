@@ -33,6 +33,8 @@ module.exports = ({app, io}) => {
     api.get('/verificationRequest',
         passport.authenticate('jwt', {session: false}),
         (req, res) => {
+            console.log('testesttest');
+            console.log(req.user.groups[0]);
             res.status(200).send(req.user);
     });
 
@@ -162,9 +164,15 @@ module.exports = ({app, io}) => {
         passport.authenticate('jwt', {session: false}),
         (req, res) => {
             console.log(req.user.groups[0]);
-            Topic.find({group: req.user.groups[0].toString()}, (err, topics) => {
-                res.json(topics)
-            });
+            if(req.user.groups[0] == undefined){
+                Topic.find({group: '0'}, (err, topics) => {
+                    res.json(topics)
+                });
+            }else{
+                Topic.find({group: req.user.groups[0].toString()}, (err, topics) => {
+                    res.json(topics)
+                });
+            }
     });
 
     api.post('/setTopic/',
@@ -174,11 +182,13 @@ module.exports = ({app, io}) => {
             newTopic.author = req.user.username;
             newTopic.group = req.user.groups[0];
             newTopic.topic = req.body.topic;
-            newTopic.save((err) => {
-                if(err) console.log(err.request);
-                else res.status(200).send("Successfully created topic");
-
-            });
+            if(req.user.groups[0] != undefined){
+                newTopic.save((err) => {
+                    if(err) console.log(err.request);
+                    else res.status(200).send("Successfully created topic");
+                });
+            }
+            
     });
 
 

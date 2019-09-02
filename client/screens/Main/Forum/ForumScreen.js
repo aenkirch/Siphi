@@ -10,6 +10,8 @@ import t from 'tcomb-form-native';
 import * as SecureStore from 'expo-secure-store';
 
 import { Button } from '../../../components/Button';
+import { ButtonTopic } from '../../../components/ButtonTopic';
+import { ButtonAdd } from '../../../components/ButtonAdd';
 import { getTopics } from '../../../actions/apiActions';
 
 mapDispatchToProps = dispatch => {
@@ -62,7 +64,7 @@ class connectedForumScreen extends Component {
     let {navigate} = this.props.navigation;
     const ListTopic = this.state.data_topics.map(function(t, i){
       return(
-        <Button key={i}
+        <ButtonTopic key={i}
           title={t.topic} 
           action={() => navigate('Topic',{ nom_topic : t.topic})}
         />
@@ -70,11 +72,13 @@ class connectedForumScreen extends Component {
     })
         return (
           <View style={{flex: 1}}>
-             <ScrollView>
+             <ScrollView style={{alignContent:"center"}}>
               {ListTopic}
             </ScrollView>
             <View>
-              <Button
+              <ButtonAdd
+                title={"+"}
+                style={styles.buttonTopic}
                 action={()=>{ navigate('CreateTopic')}}
               />
             </View>
@@ -84,6 +88,14 @@ class connectedForumScreen extends Component {
         );
     }
 }
+connectedForumScreen.navigationOptions = {
+  title: 'Topics',
+};
+const styles = StyleSheet.create({
+  buttonTopic: {
+    backgroundColor: '#2f95dc',
+  }
+});
 
 const ForumScreen = connect(mapStateToProps, mapDispatchToProps)(connectedForumScreen);
 

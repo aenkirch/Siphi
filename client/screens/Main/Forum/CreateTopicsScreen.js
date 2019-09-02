@@ -11,6 +11,7 @@ import t from 'tcomb-form-native';
 import * as SecureStore from 'expo-secure-store';
 
 import { Button } from '../../../components/Button';
+import { ButtonAdd, ButtonCreate } from '../../../components/ButtonAdd';
 import { SetTopic } from '../../../actions/apiActions';
 
 mapDispatchToProps = dispatch => {
@@ -53,16 +54,16 @@ class connectedCreateTopicsScreen extends Component {
     render() {
         return (
             <View>
-                <Text>
-                    NOM DU TOPIC
+                <Text styles={{justifyContent: 'center',}}>
+                    NOM DU TOPIC : 
                 </Text>
                 <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                    style={{height: 40, borderColor: 'gray', borderWidth: 1, borderRadius:5, margin:30,}}
                     onChangeText={(topicName) => this.setState({topicName})}
                     value={this.state.topicName}
                 />
                 <View>
-                    <Button
+                    <ButtonCreate
                         title={'Créer'}
                         action={() => this.CreateTop()}
                     />
@@ -71,7 +72,9 @@ class connectedCreateTopicsScreen extends Component {
         );
     }
 }
-
+connectedCreateTopicsScreen.navigationOptions = {
+  title: 'Création de topic',
+};
 const CreateTopicsScreen = connect(mapStateToProps, mapDispatchToProps)(connectedCreateTopicsScreen);
 
 export default CreateTopicsScreen;

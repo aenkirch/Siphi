@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "packagerPort": null,
-  "packagerPid": null
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://fh-vqu.anonymous.client.exp.direct",
+  "packagerNgrokUrl": "https://packager.fh-vqu.anonymous.client.exp.direct",
+  "ngrokPid": 17354,
+  "packagerPort": 19001,
+  "packagerPid": 17325
 }

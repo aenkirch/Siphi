@@ -8,6 +8,7 @@ import sortBy from 'lodash.sortby';
 import { getComments, setComments } from '../../../actions/apiActions';
 import Comment from './Comment';
 import { Button } from '../../../components/Button';
+import { ButtonPostCom } from '../../../components/ButtonTopic';
 
 
 const mapDispatchToProps = dispatch => {
@@ -29,7 +30,7 @@ class connectedTopicScreen extends Component {
     refresh : true,
     data_comments: [],
     text: '',
-    refreshing:false
+    refreshing:false,
   }
   constructor(props){
     super(props);
@@ -133,8 +134,9 @@ class connectedTopicScreen extends Component {
           value={this.state.text}
         />
         <View>
-          <Button
-             action={() => this.SendComment()}
+          <ButtonPostCom
+            title={"Post comment"}
+            action={() => this.SendComment()}
           />
         </View>
         </View>
@@ -150,6 +152,8 @@ const styles = StyleSheet.create({
     marginTop: 5
   }
 })
+
+
 
 const TopicScreen = connect(mapStateToProps, mapDispatchToProps)(connectedTopicScreen);
 

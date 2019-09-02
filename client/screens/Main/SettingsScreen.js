@@ -8,6 +8,8 @@ import * as SecureStore from 'expo-secure-store';
 
 import { RedButton } from '../../components/RedButton';
 import { Button } from '../../components/Button';
+import { ButtonCreateGroup } from '../../components/ButtonCreate';
+
 
 class SettingsScreen extends React.Component {
 
@@ -17,16 +19,28 @@ class SettingsScreen extends React.Component {
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
-          <RedButton title={"Sign off"} action={this._signOff}/>
-          <Button 
+          
+          <ButtonCreateGroup 
             title={"Create a new course"}
             action={() => this.props.navigation.navigate('CourseCreationScreen')}
           />
 
-          <Button 
+          <ButtonCreateGroup 
             title={"Create a new group"}
             action={() => this.props.navigation.navigate('GroupCreationScreen')}
           />
+
+          <View
+            style={{
+              borderBottomColor: 'black',
+              borderBottomWidth: 1,
+              marginTop:50,
+              marginBottom: 50,
+            }}
+          />
+
+          <RedButton title={"Sign off"} action={this._signOff}/>
+          
         </ScrollView>
       </View>
     )
@@ -40,7 +54,7 @@ class SettingsScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 100,
     padding: 20,
     backgroundColor: '#ffffff',
   },
