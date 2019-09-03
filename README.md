@@ -57,8 +57,6 @@ This project was developed during a few months as a school project for Paris Des
 ---
 ## Usage
 
-<strong>npm dev</strong> : type this command line when you've finished the setup section, it runs the server side of the project and the client side of the project at the same time to run the full app
-
 <strong>npm start</strong> : if you type this command line when you're either in the `/` folder of the project, it will run the server side of the project only, if you run it in the `/client` folder of the project, it will run only the client side of the project
 
 <strong>adb reverse tcp:3000 tcp:3000</strong> : you have to type this command line on the terminal after you‘ve launched the app in order to setup the connection between your PC and your phone
