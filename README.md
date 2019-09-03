@@ -24,11 +24,13 @@ This project was developed during a few months as a school project for Paris Des
 <ul>
     <li>Create and answer to forms</li>
     <li>Forum (Reddit-like) in order for students and teachers to talk about lectures</li>
+    <li>Fully REST API with status codes adapted to requests on DB</li>
+    <li>Confirmation of done action if one happened on DB displayed on a toast</li>
 </ul>
 
 ---
 
-## How to run the project
+## Setup
 
 <i>Disclaimer : these are the instructions to run it on your phone using a cable connected to the computer, you may change these using how you want to run the project.</i>
 
@@ -36,10 +38,11 @@ This project was developed during a few months as a school project for Paris Des
     <li>Be assured to have Node.js installed on your computer</li>
     <li>In the project’s folder, type <strong>npm install</strong> to install missing dependencies of the server side of the project</li>
     <li>Then in <strong>/client</strong>, type again <strong>npm install</strong> to install missing dependencies of the client side of the project</li>
-    <li>Type <strong>npm dev</strong> in the project folder</li>
+    <li>Type <strong>npm start</strong> in the project folder</li> and the same command line into <strong>/client</strong> in another terminal
     <li>In a new terminal, type <strong>adb reverse tcp:3000 tcp:3000</strong></li>
     <li>Go at http://localhost:19002 and be sure to use a local connection to run your app, it should run much faster</li>
-    <li>In the terminal you used to run the project, just type 'a' in order to </li>
+    <li>In the terminal you used to run the client side of the project, just type 'a' in order to </li> run your app on the phone
+    <li>You‘re good to go !</li>
 </ol>
 
 ---

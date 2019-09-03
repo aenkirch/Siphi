@@ -47,6 +47,7 @@ module.exports = ({app, io}) => {
         (req, res) => {
             Course.find({}, (err, courses) => {
                 if (err) console.log(err);
+                if (!courses[0]) res.sendStatus(404);
                 else res.status(200).send(courses);
             })
     });
@@ -68,7 +69,8 @@ module.exports = ({app, io}) => {
 
             finally {
                 console.log(availableForms);
-                res.status(200).send(availableForms);
+                if (!availableForms[0]) res.sendStatus(404);
+                else res.status(200).send(availableForms);
             }
     });
 
@@ -89,6 +91,7 @@ module.exports = ({app, io}) => {
 
             finally {
                 console.log(groupsInfos);
+                if (!groupsInfos[0]) res.sendStatus(404);
                 res.status(200).send(groupsInfos);
             }
     });
@@ -98,7 +101,8 @@ module.exports = ({app, io}) => {
         (req, res) => {
             Group.find({"courseLabel": req.body.data.courseLabel}, (err, groups) => {
                 if (err) console.log(err);
-                else res.status(200).send(groups);
+                if (!groups[0]) res.sendStatus(404);
+                res.status(200).send(groups);
             })
     });
 
@@ -170,11 +174,13 @@ module.exports = ({app, io}) => {
             console.log(req.user.groups[0]);
             if(req.user.groups[0] == undefined){
                 Topic.find({group: '0'}, (err, topics) => {
-                    res.json(topics)
+                    if (!topics[0]) res.sendStatus(404);
+                    res.status(200).json(topics)
                 });
             }else{
                 Topic.find({group: req.user.groups[0].toString()}, (err, topics) => {
-                    res.json(topics)
+                    if (!topics[0]) res.sendStatus(404);
+                    res.status(200).json(topics)
                 });
             }
     });
