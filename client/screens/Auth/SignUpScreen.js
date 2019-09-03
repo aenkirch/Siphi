@@ -58,7 +58,7 @@ class connectedSignUpScreen extends React.Component {
             options={options}
           />
         </View>
-        <View>
+        <View style={{alignItems: 'center'}}>
           <Button title={"Sign up"} action={this._signUpAsync} />
         </View>
       </View>

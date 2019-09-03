@@ -69,11 +69,13 @@ class connectedCourseCreationScreen extends Component {
               type={Question}
               options={options}
             />
-
-            <Button 
-              title={"Save"} 
-              action={this.setCourse}
-            />
+            <View style={{alignItems: 'center'}}>
+              <Button 
+                title={"Save"} 
+                action={this.setCourse}
+              />
+            </View>
+            
 
           </View>
         </ScrollView>

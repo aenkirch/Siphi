@@ -73,11 +73,13 @@ class connectedGroupCreationScreen extends Component {
               type={Question}
               options={options}
             />
-
-            <Button 
-              title={"Save"} 
-              action={this.setGroup}
-            />
+            <View style={{alignItems: 'center'}}>
+              <Button 
+                title={"Save"} 
+                action={this.setGroup}
+              />
+            </View>
+           
 
           </View>
         </ScrollView>

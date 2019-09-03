@@ -98,10 +98,13 @@ class connectedTeacherHomeScreen extends Component {
                 <View>
                   <Select array={this.props.courses} selectedValue={this.props.selectedCourse} setValue={param => this.selectCourse(param)}/>
                   { groupSelect }
-                  <Button 
-                    title={"Confirm"}
-                    action={() => this.confirmChoice()}
-                  />
+                  <View style={{alignItems: 'center'}}>
+                    <Button 
+                      title={"Confirm"}
+                      action={() => this.confirmChoice()}
+                    />
+                  </View>
+                  
                 </View>
               )
             }

@@ -65,7 +65,7 @@ class connectedSignInScreen extends React.Component {
             options={options}
           />
         </View>
-        <View>
+        <View style={{alignItems: 'center'}}>
           <Button title={"Sign in"} action={this.signIn} />
         </View>
       </View>
@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: '#2f95dc',
-    flex: 1
+    flex: 1,
+    
   }
 });
 
